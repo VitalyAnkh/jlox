@@ -29,7 +29,8 @@ enum TokenType{
     // Literals
     Identifier,
     String,
-    Number,
+    Double,
+    Integer,
 
     // Keywords
     And,

@@ -29,7 +29,7 @@ public class Lox {
         InputStreamReader input = new InputStreamReader(System.in);
         BufferedReader reader = new BufferedReader(input);
         for (; ; ) {
-            System.out.print("vitalyr > ");
+            System.out.print("VitalyR Jox> ");
             String line = reader.readLine();
             if (line == null) break;
             run(line);
@@ -51,7 +51,7 @@ public class Lox {
     }
 
     private static void report(int line, String where, String message) {
-        System.err.println("[Line " + line + "] Error" + where + ": " + "message");
+        System.err.println("[Line " + line + "] Error" + where + ": " + message);
         hadError = true;
     }
 
