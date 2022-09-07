@@ -1,14 +1,38 @@
 package com.vitalyr.lox;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 public class Scanner {
+
+    private static final Map<String, TokenType> KEYWORDS;
     private final String source;
     private final List<Token> tokens = new ArrayList<>();
     private int start = 0;
     private int current = 0;
     private int line = 1;
+
+    static {
+        KEYWORDS = new HashMap<>();
+        KEYWORDS.put("and", TokenType.And);
+        KEYWORDS.put("class", TokenType.Class);
+        KEYWORDS.put("else", TokenType.Else);
+        KEYWORDS.put("for", TokenType.For);
+        KEYWORDS.put("fun", TokenType.Fun);
+        KEYWORDS.put("if", TokenType.If);
+        KEYWORDS.put("nil", TokenType.Nil);
+        KEYWORDS.put("or", TokenType.Or);
+        KEYWORDS.put("print", TokenType.Print);
+        KEYWORDS.put("return", TokenType.Return);
+        KEYWORDS.put("super", TokenType.Super);
+        KEYWORDS.put("this", TokenType.This);
+        KEYWORDS.put("true", TokenType.True);
+        KEYWORDS.put("var", TokenType.Var);
+        KEYWORDS.put("while", TokenType.While);
+    }
 
     private boolean isAtEnd() {
         return current == source.length();
@@ -66,7 +90,7 @@ public class Scanner {
                 if (isDigit(c)) {
                     lexNumber();
                 } else if (isAlpha(c)) {
-                    lexIdentifier();
+                    lexIdentifierOrKeyword();
                 } else {
                     Lox.error(line, "Unexpected character.");
                 }
@@ -85,7 +109,7 @@ public class Scanner {
         return ((c >= 'a' && c <= 'z')) || (c >= 'A' && c <= 'Z') || c == '_';
     }
 
-    private boolean isAlphaNumeric(char c){
+    private boolean isAlphaNumeric(char c) {
         return isAlpha(c) || isDigit(c);
     }
 
@@ -127,9 +151,13 @@ public class Scanner {
         return c >= '0' && c <= '9';
     }
 
-    private void lexIdentifier(){
-       while(isAlphaNumeric(peek())) advance();
-       addToken(TokenType.Identifier);
+    private void lexIdentifierOrKeyword() {
+        while (isAlphaNumeric(peek())) advance();
+
+        String text = source.substring(start, current);
+        TokenType type = KEYWORDS.get(text);
+        if (type == null) type = TokenType.Identifier;
+        addToken(TokenType.Identifier);
     }
 
     private void lexNumber() {
