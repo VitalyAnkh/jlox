@@ -1,7 +1,7 @@
 package com.vitalyr.lox;
 
-import java.io.IOException;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -28,7 +28,7 @@ public class Lox {
     private static void runPrompt() throws IOException {
         InputStreamReader input = new InputStreamReader(System.in);
         BufferedReader reader = new BufferedReader(input);
-        for (;;) {
+        for (; ; ) {
             System.out.print("VitalyR Jox> ");
             String line = reader.readLine();
             if (line == null) break;
